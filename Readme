@@ -1,0 +1,41 @@
+Requirement:
+
+  Python 3
+  Pybuilder
+
+
+Installation:
+
+The package is installed by Pybuilder:
+
+  ie.
+  pybuilder clean install
+
+
+Command:
+
+The some commands are supported convert between VASP POSCAR and gaussian input.
+
+v2g.py is converted tool, supports VASP input (POSCAR) to tranform to Gaussian input (.gjf or.com).
+Usage: v2g -i POSCAR -o xxx.gjf
+-h : help
+-i : input file, ie POSCAR
+-o : output file, ie xxx.gjf, xxx.com
+
+  ie.
+  v2g -i POSCAR
+
+g2v.py is converted tool, supports Gaussian input (.gjf or.com) to tranform to the VASP input (POSCAR).
+Usage: g2v -i xxx.gjf [-o POSCAR]
+-h : help
+-i : input file, ie xxx.gjf, xxx.com
+-o : output file, ie POSCAR
+
+  ie.
+  g2v -i xxx.gjf
+
+vscan.py is a tool to generate many image for VASP scan job. It needs POSCAR to be input and supports linear, angle and dihedral angle scan function.
+Usage: vscan.py
+
+  ie.
+  vascn.py

@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import docopt
+
+from vtool3.vasp import POSCAR
+
+
+def main(options):
+    in_file = options['--in_file']
+    out_file = options['--out_file']
+
+    p = POSCAR(in_file)
+
+    if p.coordinate_type[0].upper() == 'D':
+        p.direct_to_cartesian()
+    elif p.coordinate_type[0].upper() == 'C':
+        p.cartesian_to_direct()
+    else:
+        pass
+
+    if out_file is None:
+        p.write_poscar()
+    else:
+        p.write_poscar(out_file)
+
+if __name__ == "__main__":
+    option_doc = '''
+Usage:
+  poscar -i <CONTCAR> [-o <POSCAR>]
+
+Options:
+  -h, --help                      help
+  -i, --in_file <xxx.gjf>         input file, ie CONTCAR, POSCAR (Automatically detect Cartesian or Direct)
+  -o, --out_file <POSCAR>         output file, ie POSCAR
+
+'''
+    options = docopt.docopt(option_doc, version='0.1')
+    main(options)

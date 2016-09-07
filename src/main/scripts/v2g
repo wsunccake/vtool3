@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import docopt
+
+from vtool3.gaussian import GJF
+from vtool3.util import *
+from vtool3.vasp import POSCAR
+
+
+def main(options):
+    in_file = options['--in_file']
+    out_file = options['--out_file']
+    elements = options['--elements'].split(',') if options['--elements'] else options['--elements']
+
+    p = POSCAR(in_file)
+    g = GJF()
+
+    poscar_to_gjf(p, g, elements)
+
+    if out_file is None:
+        g.write_gjf()
+    else:
+        g.write_gjf(out_file)
+
+if __name__ == "__main__":
+    option_doc = '''
+Usage:
+  v2g -i <POSCAR> [-o <xxx.gjf>] [-e <H,C,O>]
+
+Options:
+  -h, --help                      help
+  -i, --in_file <POSCAR>          input file, ie POSCAR
+  -o, --out_file <xxx.gjf>        output file, ie xxx.gjf, xxx.com
+  -e, --elements <H,C,O>      setup element type, ie H,C,O,...
+'''
+
+    options = docopt.docopt(option_doc, version='0.1')
+    main(options)
+

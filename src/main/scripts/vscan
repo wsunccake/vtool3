@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+
+import docopt
+import os
+
+from vtool3.gaussian import GJF
+from vtool3.util import poscar_to_gjf
+from vtool3.vasp import POSCAR
+
+
+def create_scan_job(poscars, elements=None):
+    i = 0
+    g = GJF()
+    for p in poscars:
+        folder = "0%d" %(i) if i < 10 else "%2d" %(i)
+        if os.path.isdir(folder):
+            pass
+        else:
+            os.mkdir(folder)
+
+        if os.path.isfile(os.path.join(folder, 'POSCAR') ):
+            overwrite_flag = input("Overwrite %s/POSCAR[Y/n] : " %folder)
+            if overwrite_flag.lower() == 'y':
+                p.write_poscar(os.path.join(folder, 'POSCAR') )
+                poscar_to_gjf(p, g, elements)
+                g.write_gjf(os.path.join(folder, folder + ".gjf") )
+
+        else:
+            p.write_poscar(os.path.join(folder, 'POSCAR') )
+            poscar_to_gjf(p, g, elements)
+            g.write_gjf(os.path.join(folder, folder + ".gjf") )
+
+        i += 1
+
+
+def main():
+    in_file = options['--in_file']
+    reference_indexes = [int(i) - 1 for i in options['--reference'].split(',')]
+    motion_indexes = [int(i) - 1 for i in options['--motion'].split(',')]
+    group_indexes = [int(i) - 1 for i in options['--group'].split(',')]
+    num_step = int(options['--num_of_step'])
+    displacement = float(options['--displacement'])
+    elements = options['--elements'].split(',') if options['--elements'] else options['--elements']
+
+    poscar = POSCAR(in_file)
+    poscar.direct_to_cartesian()
+
+    if not(elements is None):
+        poscar.set_elements_type(elements)
+
+    if len(reference_indexes) == 1:
+        poscars = poscar.line_scan(displacement, num_step, reference_indexes, motion_indexes, group_indexes)
+    elif len(reference_indexes) == 2:
+        poscars = poscar.angle_scan(displacement, num_step, reference_indexes, motion_indexes, group_indexes)
+    elif len(reference_indexes) == 3:
+        poscars = poscar.dihedral_scan(displacement, num_step, reference_indexes, motion_indexes, group_indexes)
+    else:
+        raise RuntimeError('input error of reference atom')
+
+    create_scan_job(poscars, elements)
+
+
+if __name__ == "__main__":
+    option_doc = '''
+Usage:
+  vscan -i <POSCAR> -r <1>     -m <2> -g <3,4,5> -n <4> -d <1.0>  [-e <H,C,O>]
+  vscan -i <POSCAR> -r <1,2>   -m <3> -g <4,5,6> -n <4> -d <30.0> [-e <H,C,O>]
+  vscan -i <POSCAR> -r <1,2,4> -m <4> -g <5,6,7> -n <4> -d <30.0> [-e <H,C,O>]
+
+Options:
+  -h, --help                      help
+  -i, --in_file <OUTCAR>          input file, ie POSCAR
+  -r, --reference <1,2,3>         reference atoms
+  -m, --motion <2>                motion atom
+  -g, --group <3,4,5>             atom with motion atom
+  -n, --num_of_step <4>           number of step
+  -d, --displacement <1.0>        displacement (distance/angle)
+  -e, --elements <H,C,O>          setup element type, ie H,C,O
+'''
+
+    options = docopt.docopt(option_doc, version='0.1')
+    main(options)
+

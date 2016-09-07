@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import docopt
+
+from vtool3.vasp import OUTCAR
+
+
+def main(options):
+    in_file = options['--in_file']
+    out_file = options['--out_file']
+
+    o = OUTCAR(in_file)
+    o.write_log(out_file)
+
+
+if __name__ == "__main__":
+    option_doc = '''
+Usage:
+  vfreq.py -i <OUTCAR> [-o <xxx.log>]
+
+Options:
+  -h, --help                      help
+  -i, --in_file <OUTCAR>          input file, ie OUTCAR
+  -o, --out_file <xxx.log>        output file, ie xxx.log
+'''
+
+    options = docopt.docopt(option_doc, version='0.1')
+    main(options)
+
