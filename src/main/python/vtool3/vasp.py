@@ -228,7 +228,7 @@ class POSCAR(object):
         if filename is None:
             print(output1 + output2 + output3)
         else:
-            f = open(filename, 'wb')
+            f = open(filename, 'w')
             f.write(output1 + output2 + output3)
             f.close()
 #        self.listAtom()
@@ -381,7 +381,7 @@ class POSCAR(object):
                 tmp_x = v1_len * x + v2_len * cos_gamma * y + v3_len * cos_beta * z
                 tmp_y = v2_len * sin_gamma * y + v3_len * (cos_alpha - cos_beta * cos_gamma) / sin_gamma * z
                 tmp_z = v3_len * volume/sin_gamma*z
-                a.coordinate = (tmp_x, tmp_y, tmp_z)
+                a.set_coordinate(tmp_x, tmp_y, tmp_z)
 
     def cartesian_to_direct(self):
         """ cartesian coordinate convert to direct coordinate
@@ -580,7 +580,7 @@ class OUTCAR:
         if filename is None:
             print(out)
         else:
-            f = open(filename, 'wb')
+            f = open(filename, 'w')
             f.write(out)
             f.close()
 #    

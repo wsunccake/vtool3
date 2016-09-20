@@ -124,7 +124,7 @@ class GJF(object):
         if filename is None:
             print(output)
         else:
-            f = open(filename, "wb")
+            f = open(filename, "w")
             f.write(output)
             f.close()
 
