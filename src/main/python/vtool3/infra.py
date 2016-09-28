@@ -13,18 +13,18 @@ class Vector(object):
         self.__y = y
         self.__z = z
 
-    @property
-    def basis(self):
+    def get_basis(self):
         return self.__x, self.__y, self.__z
 
-    @basis.setter
-    def basis(self, x, y, z):
+    def set_basis(self, x, y, z):
         self.__x = x
         self.__y = y
         self.__z = z
 
+    basis = property(get_basis, 'basis property')
+
     def normalized(self):
-        length = self.length
+        length = self.length()
         if length == 0.0:
             print("Don't normalized")
             return Vector(self.__x, self.__y, self.__z)
@@ -59,6 +59,10 @@ class Vector(object):
 
     def __mul__(self, n):
         return Vector(n * self.__x, n * self.__y, n * self.__z)
+
+    def __eq__(self, vector):
+        x, y, z = vector.basis
+        return True if (self.__x == x and self.__y == y and self.__z == z) else False
 
     def rotate(self, axis_vector, angle):
         """ rotating vector around arbitrary axis
@@ -105,13 +109,13 @@ class Lattice(object):
     def constant(self, const):
         self.__constant = const
 
-    @property
-    def vectors(self):
+    def get_vectors(self):
         return self.__vectors
 
-    @vectors.setter
-    def vectors(self, v1, v2, v3):
+    def set_vectors(self, v1, v2, v3):
         self.__vectors = [v1, v2, v3]
+
+    vectors = property(get_vectors, 'vectors property')
 
 
 class Element(object):
@@ -189,6 +193,7 @@ class Atom(Element):
         """
 
         self.symbol = element_symbol
+        check_element_by_periodic_table(self)
         self.__x_coordinate = x_coordinate
         self.__y_coordinate = y_coordinate
         self.__z_coordinate = z_coordinate
@@ -232,6 +237,13 @@ class Atom(Element):
     def __repr__(self):  
         return repr((self.symbol, self.__x_coordinate, self.__y_coordinate, self.__z_coordinate))
 
+    def __eq__(self, atom):
+        if (self.symbol == atom.symbol):
+            if (self.coordinate == atom.coordinate):
+                return True
+        return False
+
+
     def show_atom(self):
         print("%3s, %+14.10f, %+14.10f, %+14.10f, %4s, %4s, %4s" %(self.symbol, self.__x_coordinate, self.__y_coordinate, self.__z_coordinate, self.__x_dynamic, self.__y_dynamic, self.__z_dynamic))
 
@@ -255,15 +267,15 @@ class Atom(Element):
         return Atom(self.symbol, new_x, new_y, new_z, self.__x_dynamic, self.__y_dynamic, self.__z_dynamic)
 
     def mul_coordinate(self, f):
-        new_x = self.__x_coordinate_ * f
-        new_y = self.__y_coordinate_ * f
-        new_z = self.__z_coordinate_ * f
+        new_x = self.__x_coordinate * f
+        new_y = self.__y_coordinate * f
+        new_z = self.__z_coordinate * f
         return Atom(self.symbol, new_x, new_y, new_z, self.__x_dynamic, self.__y_dynamic, self.__z_dynamic)
 
     def div_coordinate(self, f):
-        new_x = self.__x_coordinate_ / f
-        new_y = self.__y_coordinate_ / f
-        new_z = self.__z_coordinate_ / f
+        new_x = self.__x_coordinate / f
+        new_y = self.__y_coordinate / f
+        new_z = self.__z_coordinate / f
         return Atom(self.symbol, new_x, new_y, new_z, self.__x_dynamic, self.__y_dynamic, self.__z_dynamic)
 
 
