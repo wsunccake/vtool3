@@ -75,14 +75,13 @@ class POSCAR(object):
         pass
 
     def set_atom_element(self, index, element_symbol):
-#        self.__atoms[index].setElement(element)
         self.__atoms[index].symbol = element_symbol
 
     def set_atom_coordinate(self, index, x_coordinate, y_coordinate, z_coordinate):
-        self.__atoms[index].coordinate = x_coordinate, y_coordinate, z_coordinate
+        self.__atoms[index].set_coordinate(x_coordinate, y_coordinate, z_coordinate)
 
     def set_atom_dynamic(self, index, x_dynamic, y_dynamic, z_dynamic):
-        self.__atoms[index].dynamic = x_dynamic, y_dynamic, z_dynamic
+        self.__atoms[index].set_dynamic(x_dynamic, y_dynamic, z_dynamic)
 
     def set_atom(self, index, atom):
         self.__atoms[index] = atom
