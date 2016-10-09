@@ -20,11 +20,11 @@ class InfraTest(unittest.TestCase):
         self.assertEqual(v3, v2)
 
         v4 = Vector(1, 2, 3)
-        self.assertEquals('1.000000, 2.000000, 3.000000', v4.__str__())
-        self.assertEquals(Vector(4, 4, 4), v4.__add__(Vector(3, 2, 1)))
-        self.assertEquals(Vector(0, 0, 0), v4.__sub__(Vector(1, 2, 3)))
-        self.assertEquals(Vector(5, 10, 15), v4.__mul__(5))
-        self.assertEquals(True, v4.__eq__(Vector(1, 2, 3)))
+        self.assertEquals('1.000000, 2.000000, 3.000000', str(v4))
+        self.assertEquals(Vector(4, 4, 4), v4 + Vector(3, 2, 1))
+        self.assertEquals(Vector(0, 0, 0), v4 - Vector(1, 2, 3))
+        self.assertEquals(Vector(5, 10, 15), v4 * 5)
+        self.assertEquals(True, v4 == Vector(1, 2, 3))
 
         v5 = Vector(10, 0, 0)
         self.assertEquals(v5, v5.rotate(Vector(1, 0, 0), 360.0))
@@ -58,11 +58,11 @@ class InfraTest(unittest.TestCase):
         self.assertEqual('Selenium', x.name)
         self.assertEqual(34, x.atomic_number)
         self.assertEqual(78.971, x.atomic_mass)
-        self.assertEquals('Se, Selenium, 34, 78', x.__str__())
+        self.assertEquals('Se, Selenium, 34, 78', str(x))
 
         y = Element('H', 'Hydrogen', 1, 1)
         y.copy_element(x)
-        self.assertEquals('Se, Selenium, 34, 78', y.__str__())
+        self.assertEquals('Se, Selenium, 34, 78', str(y))
 
     def test_check_element_by_periodic_table(self):
         h = Element('H')
@@ -116,11 +116,11 @@ class InfraTest(unittest.TestCase):
         self.assertEquals((3.52, 4.67, 2.33), default.coordinate)
         self.assertEquals(('F', 'T', 'F'), default.dynamic)
         self.assertEquals((10.5223, 20.9889, 56.2837), default.displace)
-        self.assertEquals("('C', 3.52, 4.67, 2.33)", default.__repr__())
+        self.assertEquals("('C', 3.52, 4.67, 2.33)", repr(default))
 
         copy_from_default = Atom()
         copy_from_default.copy_atom(default)
-        self.assertEquals(True, copy_from_default.__eq__(default))
+        self.assertEquals(True, copy_from_default == default)
         self.assertEquals(Atom('C', 9.0, 9.0, 9.0), copy_from_default.add_coordinate(5.48, 4.33, 6.67))
         self.assertEquals(Atom('C', 3.0, 4.0, 2.0), copy_from_default.sub_coordinate(0.52, 0.67, 0.33))
         self.assertEquals(Atom('C', 10.56, 14.01, 6.99), copy_from_default.mul_coordinate(3))
