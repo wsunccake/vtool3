@@ -50,11 +50,29 @@ class VaspTest(unittest.TestCase):
         self.assertEquals("[('H', 10, 20, 30), ('N', 1.002, 2.001, 3.002), ('F', 100, 200, 300)]", str(p1.get_atoms()))
 
 
-        out = '''  H, +10.0000000000, +20.0000000000, +30.0000000000,    T,    F,    T
+        out1 = '''  H, +10.0000000000, +20.0000000000, +30.0000000000,    T,    F,    T
   N,  +1.0020000000,  +2.0010000000,  +3.0020000000,    F,    T,    F
   F, +100.0000000000, +200.0000000000, +300.0000000000,    F,    T,    F
 '''
         with patch('sys.stdout', new=StringIO()) as fake_out:
             p1.list_atom()
-            self.assertEqual(out, fake_out.getvalue())
+            self.assertEqual(out1, fake_out.getvalue())
+
+        o1 = Atom('O', 10.2, 20.2, 30.2, 'T', 'T', 'F', 100.1, 200.1, 300.1)
+        o2 = Atom('O', 1.2, 0.2, 0.22, 'T', 'T', 'F', 10.1, 0.1, 3.1)
+        p1.add_atom(o1)
+        p1.add_atom(o2)
+        self.assertEquals([{'element_type': 'H', 'element_number': 1}, {'element_type': 'N', 'element_number': 1}, {'element_type': 'F', 'element_number': 1}, {'element_type': 'O', 'element_number': 2}], p1._check__elements())
+
+
+        p1.set_elements_type(['O', 'F', 'N', 'H'])
+        out2 = '''  O, +10.0000000000, +20.0000000000, +30.0000000000,    T,    F,    T
+  F,  +1.0020000000,  +2.0010000000,  +3.0020000000,    F,    T,    F
+  N, +100.0000000000, +200.0000000000, +300.0000000000,    F,    T,    F
+  H, +10.2000000000, +20.2000000000, +30.2000000000,    T,    T,    F
+  H,  +1.2000000000,  +0.2000000000,  +0.2200000000,    T,    T,    F
+'''
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            p1.list_atom()
+            self.assertEquals(out2, fake_out.getvalue())
 
