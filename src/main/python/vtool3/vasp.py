@@ -537,10 +537,9 @@ class OUTCAR:
                      {'number': out3number, 'frequency': out3frequency, 'title': out3title, 'col': out3col},]
 
         numberOfFreq = len(self.__dynamic_matrixes)
-        quotient = numberOfFreq / 3
+        quotient = numberOfFreq // 3
         remainder = numberOfFreq % 3
         number_of_atoms = len(self.__dynamic_matrixes[0]['atoms'])
-#        print numberOfFreq, quotient, remainder
         out = sentances[0]['orientation']
 
         for i in range(number_of_atoms):
@@ -582,14 +581,9 @@ class OUTCAR:
             f = open(filename, 'w')
             f.write(out)
             f.close()
-#    
 
 
 if __name__ == "__main__":
-    #    o = OUTCAR('OUTCAR')
-#    o.writeLog()
-
-#    p = POSCAR('POSCAR5C')
     p = POSCAR('c1')
     p.cartesian_to_direct()
     p.write_poscar('d1')
@@ -597,5 +591,3 @@ if __name__ == "__main__":
     p = POSCAR('d1')
     p.direct_to_cartesian()
     p.write_poscar('c2')
-
-    pass
