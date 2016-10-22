@@ -243,7 +243,6 @@ class Atom(Element):
                 return True
         return False
 
-
     def show_atom(self):
         print("%3s, %+14.10f, %+14.10f, %+14.10f, %4s, %4s, %4s" %(self.symbol, self.__x_coordinate, self.__y_coordinate, self.__z_coordinate, self.__x_dynamic, self.__y_dynamic, self.__z_dynamic))
 
