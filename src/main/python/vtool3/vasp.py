@@ -527,6 +527,7 @@ class OUTCAR(object):
 
                     # Get real freq
                     elif len(tmp_array) == 11:
+                        i = 0
                         freq = {"THz": float(tmp_array[3]),
                                 "2PiTHz": float(tmp_array[5]),
                                 "cm-1": float(tmp_array[7]),
@@ -540,7 +541,7 @@ class OUTCAR(object):
                                 l = f.readline()
                                 tmp_array = l.split()
                             else:
-                                tmp_atom = Atom(element_symbol = 'X',
+                                tmp_atom = Atom(element_symbol = tmp_elements[i],
                                                 x_coordinate = float(tmp_array[0]), y_coordinate = float(tmp_array[1]), z_coordinate = float(tmp_array[2]),
                                                 x_displace = float(tmp_array[3]), y_displace = float(tmp_array[4]), z_displace = float(tmp_array[3]) )
                                 l = f.readline()
@@ -554,7 +555,6 @@ class OUTCAR(object):
                 
         f.close()
         self.__dynamic_matrixes.reverse()
-
 
     def write_log(self, filename=None):
         out0orientation = """GradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGrad
