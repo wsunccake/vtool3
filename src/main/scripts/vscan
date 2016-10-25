@@ -33,7 +33,7 @@ def create_scan_job(poscars, elements=None):
         i += 1
 
 
-def main():
+def main(options):
     in_file = options['--in_file']
     reference_indexes = [int(i) - 1 for i in options['--reference'].split(',')]
     motion_indexes = [int(i) - 1 for i in options['--motion'].split(',')]

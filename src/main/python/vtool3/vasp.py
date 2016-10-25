@@ -58,8 +58,8 @@ class POSCAR(object):
     def get_coordinate_type(self):
         return self.__coordinate_type
 
-    def set_coordinate_type(self, coordinate):
-        self.__coordinate_type = coordinate
+    def set_coordinate_type(self, coordinate_type):
+        self.__coordinate_type = coordinate_type
 
     coordinate_type = property(get_coordinate_type, set_coordinate_type, 'coordinate type property')
 
@@ -258,7 +258,7 @@ class POSCAR(object):
             x, y, z = v.basis
 
             for j in tmp_indexes:
-                tmp_x, tmp_y, tmp_z = self.__atoms[j].getCoordinate()
+                tmp_x, tmp_y, tmp_z = self.__atoms[j].coordinate
                 tmp_poscar.set_atom_coordinate(j, tmp_x + x, tmp_y + y, tmp_z + z)
             poscars.append(tmp_poscar)
         return poscars
@@ -296,7 +296,7 @@ class POSCAR(object):
                 tmp_x, tmp_y, tmp_z = self.__atoms[j].coordinate
                 tmp_v = Vector(tmp_x - x2, tmp_y - y2, tmp_z - z2)
                 tmp_v = tmp_v.rotate(normal_vector, a)
-                tmp_x, tmp_y, tmp_z = tmp_v.getBasis()
+                tmp_x, tmp_y, tmp_z = tmp_v.basis
                 tmp_poscar.set_atom_coordinate(j, tmp_x + x2, tmp_y + y2, tmp_z + z2)
             poscars.append(tmp_poscar)
         return poscars
@@ -315,10 +315,10 @@ class POSCAR(object):
         ref3_atm = self.__atoms[ref_indexes[2]]
         mot_atm  = self.__atoms[mot_indexes[0]]
     
-        x1, y1, z1 = ref1_atm.getCoordinate()
-        x2, y2, z2 = ref2_atm.getCoordinate()
-        x3, y3, z3 = ref3_atm.getCoordinate()
-        x4, y4, z4 = mot_atm.getCoordinate()
+        x1, y1, z1 = ref1_atm.coordinate
+        x2, y2, z2 = ref2_atm.coordinate
+        x3, y3, z3 = ref3_atm.coordinate
+        x4, y4, z4 = mot_atm.coordinate
     
         vec1 = Vector(x1 - x2, y1 - y2, z1 - z2)
         vec2 = Vector(x3 - x2, y3 - y2, z3 - z2)
@@ -339,10 +339,10 @@ class POSCAR(object):
             tmp_poscar.__atoms = copy.deepcopy(self.__atoms)
     
             for j in tmp_indexes:
-                tmp_x, tmp_y, tmp_z = self.__atoms[j].getCoordinate()
+                tmp_x, tmp_y, tmp_z = self.__atoms[j].coordinate
                 tmp_v = Vector(tmp_x - x3, tmp_y - y3, tmp_z - z3)
                 tmp_v = tmp_v.rotate(normal_vec3, a)
-                tmp_x, tmp_y, tmp_z = tmp_v.getBasis()
+                tmp_x, tmp_y, tmp_z = tmp_v.basis
                 tmp_poscar.set_atom_coordinate(j, tmp_x + x3, tmp_y + y3, tmp_z + z3)
             poscars.append(tmp_poscar)
         return poscars
