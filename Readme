@@ -39,3 +39,11 @@ Usage: vscan.py
 
   ie.
   vascn.py
+
+
+Docker:
+
+  docker pull wsunccake/vtool3
+  docker run -itd -v /data:/home/vtool --name vtool3 wsunccake/vtool3
+  cd /data
+  docker exec -it vtool3 g2v -i xxx.gjf
