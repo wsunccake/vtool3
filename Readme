@@ -9,7 +9,8 @@ Installation:
 The package is installed by Pybuilder:
 
   ie.
-  pybuilder clean install
+  pyb clean install
+  pyb clean run_unit_tests
 
 
 Command:

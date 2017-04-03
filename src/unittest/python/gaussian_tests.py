@@ -44,6 +44,7 @@ H           0.00000000       0.00000000       0.00000000
         self.assertEquals(10, g1.lattice.constant)
 
     def test_gjf_all_setter(self):
+        g1 = GJF()
         g1.set_option('# opt freq b3lyp')
         self.assertEquals('# opt freq b3lyp', g1.option)
 
@@ -80,7 +81,7 @@ H           0.00000000       0.00000000       0.00000000
         self.assertEquals('0.000000, 0.000000, 90.000000', str(g1.lattice.vectors[2]))
 
         g2 = GJF()
-        g2.read_gjf('../file/L1-cu.gjf')
+        g2.read_gjf('src/unittest/file/L1-cu.gjf')
         expect_out = '''%chk=E:\mcm-41\gjf\L1-cu.chk
 %nprocshared=8
 %mem=1024MB

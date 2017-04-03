@@ -77,7 +77,7 @@ class VaspTest(unittest.TestCase):
             self.assertEquals(out2, fake_out.getvalue())
 
         p2 = POSCAR()
-        p2.read_poscar('../file/POSCAR')
+        p2.read_poscar('src/unittest/file/POSCAR')
         poscar_out = '''CeO2 - (111) vacuum 14A adsorb O2
 1.0000000000
  +2.7050000000  -2.7050000000  +0.0000000000
@@ -105,17 +105,8 @@ Direct
             p2.write_poscar()
             self.assertEquals(poscar_out, fake_out.getvalue())
 
-
-
-
-
-
-
-
-
-
         p3 = POSCAR()
-        p3.read_poscar('../file/poscar-cart')
+        p3.read_poscar('src/unittest/file/poscar-cart')
         p3.cartesian_to_direct()
         poscar_dirt_out = '''C    H    Li   Mn   O
 1.0000000000
@@ -214,7 +205,7 @@ Direct
 
 
         p4 = POSCAR()
-        p4.read_poscar('../file/poscar-dire')
+        p4.read_poscar('src/unittest/file/poscar-dire')
         p4.direct_to_cartesian()
         poscar_cart_out = '''C    H    Li   Mn   O
 1.0000000000
@@ -312,7 +303,7 @@ Cartesian
             self.assertEquals(poscar_cart_out, fake_out.getvalue())
 
     def test_outcar(self):
-        o1 = OUTCAR('../file/OUTCAR')
+        o1 = OUTCAR('src/unittest/file/OUTCAR')
         g09_log_out = '''GradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGrad
  Number of steps in this run=   2 maximum allowed number of steps=   2.
  GradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGrad
